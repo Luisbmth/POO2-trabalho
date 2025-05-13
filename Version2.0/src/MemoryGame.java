@@ -10,13 +10,11 @@ import javax.swing.Timer;
 public class MemoryGame {
     private JFrame frame = new JFrame("Jogo da Memória");
     private JPanel panel = new JPanel() {
-        // Sobrescreve o método paintComponent para desenhar o fundo
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
-            // Carrega a imagem de fundo
-            ImageIcon backgroundImage = new ImageIcon("../../assets/mesa_de_madeira.jpg"); // Imagem de fundo
-            g.drawImage(backgroundImage.getImage(), 0, 0, this);  // Desenha a imagem no fundo
+            ImageIcon backgroundImage = new ImageIcon("../../assets/mesa.jpg");
+            g.drawImage(backgroundImage.getImage(), 0, 0, getWidth(), getHeight(), this); // Preenche 100% do fundo
         }
     };
     private JButton[] buttons;
@@ -31,14 +29,18 @@ public class MemoryGame {
     private boolean canClick = true;
 
     public MemoryGame() {
-        this.panel.setLayout(new GridLayout(4, 3, 10, 10)); // 4 linhas x 3 colunas, com espaçamento de 10 entre as cartas
+        this.panel.setLayout(new GridLayout(4, 3, 10, 10)); // 4 linhas x 3 colunas, com espaçamento
         this.buttons = new JButton[12];
-        this.cardBack = new ImageIcon(""); // Card back (imagem de fundo da carta)
+
+        // Carrega e redimensiona a imagem de trás da carta
+        ImageIcon backCardImage = new ImageIcon("../../assets/back-card.png");
+        Image resizedImage = backCardImage.getImage().getScaledInstance(100, 150, Image.SCALE_SMOOTH);
+        this.cardBack = new ImageIcon(resizedImage);
 
         this.cards = new ImageIcon[6];
         this.cardValues = new ArrayList<>();
 
-        // NÃO ALTERAR: Imagens definidas conforme solicitado
+        // Imagens dos pares
         this.cards[0] = new ImageIcon("../../assets/DaviDance.gif");
         this.cards[1] = new ImageIcon("../../assets/DaviCrying.gif");
         this.cards[2] = new ImageIcon("../../assets/DaviTired.gif");
@@ -46,7 +48,6 @@ public class MemoryGame {
         this.cards[4] = new ImageIcon("../../assets/DaviParty.gif");
         this.cards[5] = new ImageIcon("../../assets/DaviShower.gif");
 
-        // Adiciona 6 pares (valores de 0 a 5)
         for (int i = 0; i < 6; i++) {
             cardValues.add(i);
             cardValues.add(i);
@@ -58,9 +59,9 @@ public class MemoryGame {
             final int index = i;
             buttons[i] = new JButton();
             buttons[i].setIcon(cardBack);
-            buttons[i].setHorizontalAlignment(SwingConstants.CENTER); // Centraliza a imagem horizontalmente
-            buttons[i].setVerticalAlignment(SwingConstants.CENTER); // Centraliza a imagem verticalmente
-            buttons[i].setBorder(new LineBorder(new Color(139, 69, 19), 3)); // Linha marrom de 3px
+            buttons[i].setHorizontalAlignment(SwingConstants.CENTER);
+            buttons[i].setVerticalAlignment(SwingConstants.CENTER);
+            buttons[i].setBorder(new LineBorder(new Color(139, 69, 19), 3));
             buttons[i].addActionListener(e -> onCardClick(index));
             panel.add(buttons[i]);
         }
@@ -87,11 +88,9 @@ public class MemoryGame {
 
             Timer timer = new Timer(1000, e -> {
                 if (cardValues.get(firstIndex).equals(cardValues.get(secondIndex))) {
-                    // Par correto: manter as cartas viradas
                     firstCard.setEnabled(false);
                     secondCard.setEnabled(false);
                 } else {
-                    // Par incorreto: virar de volta
                     firstCard.setIcon(cardBack);
                     secondCard.setIcon(cardBack);
                 }

@@ -18,23 +18,21 @@ public class MenuInicial extends JFrame {
         painel.setBorder(BorderFactory.createEmptyBorder(30, 50, 30, 50));
 
         // Título
-        JLabel titulo = new JLabel("JOGO DA MEMÓRIA", JLabel.CENTER);
+        JLabel titulo = new JLabel("JOGO DA MEMORIA", JLabel.CENTER);
         titulo.setFont(new Font("Arial", Font.BOLD, 24));
         titulo.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // Botão Jogar
-        JButton btnJogar = new JButton("Jogar");
-        btnJogar.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JButton btnJogar = criarBotao("Jogar");
         btnJogar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Aqui você chamaria a tela do jogo
-                JOptionPane.showMessageDialog(null, "Iniciar o jogo...");
+                dispose(); // Fecha o menu inicial
+                SwingUtilities.invokeLater(() -> new MemoryGame()); // Inicia o jogo
             }
         });
 
         // Botão Instruções
-        JButton btnInstrucoes = new JButton("Instruções");
-        btnInstrucoes.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JButton btnInstrucoes = criarBotao("Instrucoes");
         btnInstrucoes.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(null,
@@ -43,8 +41,7 @@ public class MenuInicial extends JFrame {
         });
 
         // Botão Sair
-        JButton btnSair = new JButton("Sair");
-        btnSair.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JButton btnSair = criarBotao("Sair");
         btnSair.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.exit(0);
@@ -64,6 +61,31 @@ public class MenuInicial extends JFrame {
         add(painel);
         setVisible(true);
     }
+
+    private JButton criarBotao(String texto) {
+    JButton botao = new JButton(texto);
+    botao.setAlignmentX(Component.CENTER_ALIGNMENT);
+    Dimension tamanho = new Dimension(200, 50); // tamanho uniforme
+    botao.setPreferredSize(tamanho);
+    botao.setMaximumSize(tamanho); // <- força o botão a não passar desse tamanho
+    botao.setMinimumSize(tamanho);
+    botao.setFont(new Font("Arial", Font.BOLD, 16));
+    botao.setBackground(new Color(70, 130, 180));
+    botao.setForeground(Color.WHITE);
+    botao.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0), 2));
+
+    botao.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseEntered(java.awt.event.MouseEvent evt) {
+            botao.setBackground(new Color(100, 149, 237));
+        }
+
+        public void mouseExited(java.awt.event.MouseEvent evt) {
+            botao.setBackground(new Color(70, 130, 180));
+        }
+    });
+
+    return botao;
+}
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new MenuInicial());
