@@ -1,18 +1,24 @@
-import java.awt.GridLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.ImageIcon;
-import javax.swing.SwingUtilities;
-import javax.swing.Timer;
+import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
+import javax.swing.Timer;
 
 public class MemoryGame {
     private JFrame frame = new JFrame("Jogo da Memória");
-    private JPanel panel = new JPanel();
+    private JPanel panel = new JPanel() {
+        // Sobrescreve o método paintComponent para desenhar o fundo
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            // Carrega a imagem de fundo
+            ImageIcon backgroundImage = new ImageIcon("../../assets/mesa_de_madeira.jpg"); // Imagem de fundo
+            g.drawImage(backgroundImage.getImage(), 0, 0, this);  // Desenha a imagem no fundo
+        }
+    };
     private JButton[] buttons;
     private ImageIcon cardBack;
     private ImageIcon[] cards;
@@ -25,9 +31,9 @@ public class MemoryGame {
     private boolean canClick = true;
 
     public MemoryGame() {
-        this.panel.setLayout(new GridLayout(4, 3)); // 4 linhas x 3 colunas
+        this.panel.setLayout(new GridLayout(4, 3, 10, 10)); // 4 linhas x 3 colunas, com espaçamento de 10 entre as cartas
         this.buttons = new JButton[12];
-        this.cardBack = new ImageIcon("");
+        this.cardBack = new ImageIcon(""); // Card back (imagem de fundo da carta)
 
         this.cards = new ImageIcon[6];
         this.cardValues = new ArrayList<>();
@@ -52,12 +58,15 @@ public class MemoryGame {
             final int index = i;
             buttons[i] = new JButton();
             buttons[i].setIcon(cardBack);
+            buttons[i].setHorizontalAlignment(SwingConstants.CENTER); // Centraliza a imagem horizontalmente
+            buttons[i].setVerticalAlignment(SwingConstants.CENTER); // Centraliza a imagem verticalmente
+            buttons[i].setBorder(new LineBorder(new Color(139, 69, 19), 3)); // Linha marrom de 3px
             buttons[i].addActionListener(e -> onCardClick(index));
             panel.add(buttons[i]);
         }
 
         frame.add(panel);
-        frame.setSize(600, 600);
+        frame.setSize(650, 650);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
