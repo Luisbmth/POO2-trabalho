@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 public class MenuInicial extends JFrame {
 
     public MenuInicial() {
-        setTitle("Jogo da Memória");
+        setTitle("Jogo da Memoria");
         setSize(400, 350);
         setLocationRelativeTo(null); // Centraliza a janela
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -23,7 +23,7 @@ public class MenuInicial extends JFrame {
         painel.setBorder(BorderFactory.createEmptyBorder(30, 50, 30, 50));
 
         // Título
-        JLabel titulo = new JLabel("JOGO DA MEMÓRIA", JLabel.CENTER);
+        JLabel titulo = new JLabel("JOGO DA MEMORIA", JLabel.CENTER);
         titulo.setFont(new Font("Verdana", Font.BOLD, 26));
         titulo.setForeground(Color.WHITE);
         titulo.setAlignmentX(Component.CENTER_ALIGNMENT);
