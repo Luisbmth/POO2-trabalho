@@ -1,5 +1,5 @@
 import java.awt.*;
-import java.awt.event.ActionEvent;
+import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.util.Collections;
@@ -8,7 +8,20 @@ import java.util.ArrayList;
 
 public class MemoryGame {
     private JFrame frame = new JFrame("Jogo da Memória");
-    private JPanel panel;
+
+    // Painel com imagem de fundo
+    private JPanel panel = new JPanel() {
+        private Image backgroundImage = new ImageIcon("../../assets/mesa.png").getImage();
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            if (backgroundImage != null) {
+                g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+            }
+        }
+    };
+
     private JButton[] buttons;
     private ImageIcon cardBack;
     private ImageIcon[] cards;
@@ -24,15 +37,6 @@ public class MemoryGame {
     private int matchedPairs = 0;
 
     public MemoryGame() {
-        panel = new JPanel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                ImageIcon backgroundImage = new ImageIcon("../../assets/mesa.avif");
-                g.drawImage(backgroundImage.getImage(), 0, 0, getWidth(), getHeight(), this);
-            }
-        };
-
         panel.setLayout(new GridLayout(4, 3, 10, 10));
         buttons = new JButton[12];
 
@@ -87,15 +91,14 @@ public class MemoryGame {
         btnMenu.setForeground(Color.WHITE);
         btnMenu.addActionListener(e -> {
             frame.dispose();
-            new MenuInicial(); // Certifique-se de que MenuInicial está acessível aqui
+            new MenuInicial(); // Certifique-se de que a classe MenuInicial está implementada
         });
 
-        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10)); // Espaçamento entre botões
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
         bottomPanel.add(btnReiniciar);
         bottomPanel.add(btnMenu);
 
         frame.add(bottomPanel, BorderLayout.SOUTH);
-
 
         frame.setSize(650, 700);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -130,7 +133,7 @@ public class MemoryGame {
 
                         int opcao = JOptionPane.showConfirmDialog(frame, "Deseja ver o ranking dos 10 melhores?", "Ranking", JOptionPane.YES_NO_OPTION);
                         if (opcao == JOptionPane.YES_OPTION) {
-                            new TelaRanking();
+                            new TelaRanking(); // Certifique-se de que esta classe está acessível
                         }
                     }
                 } else {
