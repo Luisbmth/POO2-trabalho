@@ -7,11 +7,10 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class MemoryGame {
-    private JFrame frame = new JFrame("Jogo da Memória");
+    private JFrame frame = new JFrame("Jogo da Memoria");
 
-    // Painel com imagem de fundo
     private JPanel panel = new JPanel() {
-        private Image backgroundImage = new ImageIcon("../../assets/mesa.png").getImage();
+        private Image backgroundImage = new ImageIcon("../../../assets/mesa.png").getImage();
 
         @Override
         protected void paintComponent(Graphics g) {
@@ -36,24 +35,26 @@ public class MemoryGame {
     private int attempts = 0;
     private int matchedPairs = 0;
 
+    private JLabel lblTentativas;
+    private JLabel lblPares;
+
     public MemoryGame() {
         panel.setLayout(new GridLayout(4, 3, 10, 10));
         buttons = new JButton[12];
 
-        ImageIcon backCardImage = new ImageIcon("../../assets/back-card.png");
+        ImageIcon backCardImage = new ImageIcon("../../../assets/back-card.png");
         Image resizedImage = backCardImage.getImage().getScaledInstance(100, 150, Image.SCALE_SMOOTH);
         cardBack = new ImageIcon(resizedImage);
 
         cards = new ImageIcon[6];
         cardValues = new ArrayList<>();
 
-        // Imagens dos pares
-        cards[0] = new ImageIcon("../../assets/DaviDance.gif");
-        cards[1] = new ImageIcon("../../assets/DaviCrying.gif");
-        cards[2] = new ImageIcon("../../assets/DaviTired.gif");
-        cards[3] = new ImageIcon("../../assets/DaviCalma.gif");
-        cards[4] = new ImageIcon("../../assets/DaviParty.gif");
-        cards[5] = new ImageIcon("../../assets/DaviShower.gif");
+        cards[0] = new ImageIcon("../../../assets/DaviDance.gif");
+        cards[1] = new ImageIcon("../../../assets/DaviCrying.gif");
+        cards[2] = new ImageIcon("../../../assets/DaviTired.gif");
+        cards[3] = new ImageIcon("../../../assets/DaviCalma.gif");
+        cards[4] = new ImageIcon("../../../assets/DaviParty.gif");
+        cards[5] = new ImageIcon("../../../assets/DaviShower.gif");
 
         for (int i = 0; i < 6; i++) {
             cardValues.add(i);
@@ -73,9 +74,21 @@ public class MemoryGame {
             panel.add(buttons[i]);
         }
 
-        frame.setLayout(new BorderLayout());
-        frame.add(panel, BorderLayout.CENTER);
+        // Painel superior com tentativas e pares
+        lblTentativas = new JLabel("Tentativas: 0");
+        lblTentativas.setFont(new Font("Arial", Font.BOLD, 16));
+        lblTentativas.setForeground(Color.BLACK);
 
+        lblPares = new JLabel("Pares: 0/6");
+        lblPares.setFont(new Font("Arial", Font.BOLD, 16));
+        lblPares.setForeground(Color.BLACK);
+
+        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 50, 10));
+        topPanel.setBackground(new Color(245, 222, 179)); // Cor wheat bege clara para o fundo do contador
+        topPanel.add(lblTentativas);
+        topPanel.add(lblPares);
+
+        // Painel inferior com botões
         JButton btnReiniciar = new JButton("Reiniciar");
         btnReiniciar.setFont(new Font("Arial", Font.BOLD, 16));
         btnReiniciar.setBackground(new Color(70, 130, 180));
@@ -91,13 +104,17 @@ public class MemoryGame {
         btnMenu.setForeground(Color.WHITE);
         btnMenu.addActionListener(e -> {
             frame.dispose();
-            new MenuInicial(); // Certifique-se de que a classe MenuInicial está implementada
+            new MenuInicial();
         });
 
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
         bottomPanel.add(btnReiniciar);
         bottomPanel.add(btnMenu);
 
+        // Layout final
+        frame.setLayout(new BorderLayout());
+        frame.add(topPanel, BorderLayout.NORTH);
+        frame.add(panel, BorderLayout.CENTER);
         frame.add(bottomPanel, BorderLayout.SOUTH);
 
         frame.setSize(650, 700);
@@ -119,27 +136,31 @@ public class MemoryGame {
             secondIndex = index;
             canClick = false;
             attempts++;
+            lblTentativas.setText("Tentativas: " + attempts);
 
             Timer timer = new Timer(1000, e -> {
                 if (cardValues.get(firstIndex).equals(cardValues.get(secondIndex))) {
                     firstCard.setEnabled(false);
                     secondCard.setEnabled(false);
                     matchedPairs++;
+                    lblPares.setText("Pares: " + matchedPairs + "/6");
+
                     if (matchedPairs == 6) {
-                        String nome = JOptionPane.showInputDialog(frame, "Parabéns! Você finalizou com " + attempts + " tentativas.\nDigite seu nome:");
-                        if (nome != null && !nome.trim().isEmpty()) {
+                        String nome = JOptionPane.showInputDialog(frame, "Parabens! Voce finalizou com " + attempts + " tentativas.\nDigite seu nome:");
+                        if (nome != null && !nome.trim().isBlank()) {
                             ScoreManager.saveScore(new Score(nome.trim(), attempts));
                         }
 
                         int opcao = JOptionPane.showConfirmDialog(frame, "Deseja ver o ranking dos 10 melhores?", "Ranking", JOptionPane.YES_NO_OPTION);
                         if (opcao == JOptionPane.YES_OPTION) {
-                            new TelaRanking(); // Certifique-se de que esta classe está acessível
+                            new TelaRanking();
                         }
                     }
                 } else {
                     firstCard.setIcon(cardBack);
                     secondCard.setIcon(cardBack);
                 }
+
                 firstCard = null;
                 secondCard = null;
                 canClick = true;

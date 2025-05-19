@@ -1,11 +1,11 @@
 compilar o codigo:
-javac MemoryGame.java
+javac main.java
 
 
 /////////////////////////////////////////////
 
 executar o codigo :
-java MemoryGame
+java main.java
 
 
 ////////////////////////////////////////////
