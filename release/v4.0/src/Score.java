@@ -22,6 +22,14 @@ public class Score implements Comparable<Score> {
 
     public static Score fromString(String line) {
         String[] parts = line.split(",");
-        return new Score(parts[0], Integer.parseInt(parts[1]));
+        if (parts.length != 2) {
+            throw new IllegalArgumentException("Formato inválido: " + line);
+        }
+        try {
+            int attempts = Integer.parseInt(parts[1]);
+            return new Score(parts[0], attempts);
+        } catch (NumberFormatException e) {
+            throw e; 
+        }
     }
 }
