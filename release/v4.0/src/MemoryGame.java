@@ -6,6 +6,17 @@ import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
 
+/**
+ * Classe que representa o jogo da memória.
+ * Implementa a interface gráfica, lógica do jogo,
+ * contagem de tentativas e controle de pares encontrados.
+ * 
+ * O jogo utiliza imagens como cartas e permite que o jogador
+ * reinicie ou retorne ao menu inicial.
+ * 
+ * @author Luis Felipe Leite Santos, João Marcello Santos, Caio de Andrade Ferreira e Bruno de Alencar
+ * @version 4.0
+ */
 public class MemoryGame {
     private JFrame frame = new JFrame("Jogo da Memoria");
 
@@ -37,6 +48,13 @@ public class MemoryGame {
 
     private JLabel lblTentativas;
     private JLabel lblPares;
+
+
+    /**
+     * Construtor da classe MemoryGame.
+     * Inicializa a interface gráfica, embaralha as cartas e
+     * configura os botões, eventos e layout do jogo.
+     */
 
     public MemoryGame() {
         panel.setLayout(new GridLayout(4, 3, 10, 10));
@@ -123,6 +141,14 @@ public class MemoryGame {
         frame.setVisible(true);
     }
 
+    /**
+     * Método chamado quando um botão (carta) é clicado.
+     * Gerencia a lógica de virar cartas, verificar pares,
+     * atualiza tentativas e checar o fim do jogo.
+     * 
+     * @param index O índice da carta clicada no array de botões.
+     */
+
     private void onCardClick(int index) {
         if (!canClick || buttons[index] == firstCard || buttons[index].getIcon() != cardBack) return;
 
@@ -170,6 +196,12 @@ public class MemoryGame {
         }
     }
 
+
+    /**
+     * Método principal que inicia o jogo da memória.
+     * 
+     * @param args Argumentos de linha de comando (não utilizados).
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(MemoryGame::new);
     }

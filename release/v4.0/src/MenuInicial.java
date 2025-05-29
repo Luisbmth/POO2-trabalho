@@ -1,8 +1,23 @@
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Classe responsável por exibir o menu inicial do jogo da memória.
+ * Permite que o jogador escolha entre iniciar o jogo, ver instruções,
+ * acessar o ranking ou sair do programa.
+ * 
+ * Esta classe estende {@link JFrame} e cria uma interface gráfica amigável.
+ * 
+ * @author Luis Felipe Leite Santos, João Marcello Santos, Caio de Andrade Ferreira e Bruno de Alencar
+ * @version 4.0
+ */
+
 public class MenuInicial extends JFrame {
 
+    /**
+     * Construtor da classe MenuInicial.
+     * Inicializa a janela do menu com seus componentes (botões e título).
+     */
     public MenuInicial() {
         setTitle("Jogo da Memoria");
         setSize(400, 380);

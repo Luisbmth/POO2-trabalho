@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"<Unnamed>","l":"Main"},{"p":"<Unnamed>","l":"MemoryGame"},{"p":"<Unnamed>","l":"MenuInicial"},{"p":"<Unnamed>","l":"Score"},{"p":"<Unnamed>","l":"ScoreManager"},{"p":"<Unnamed>","l":"TelaRanking"}];updateSearchResults();
