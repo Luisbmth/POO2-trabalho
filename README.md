@@ -1,5 +1,6 @@
 
-antes de compilar e executar:
+Antes de compilar e executar, acesse o seguinte diretório:
+
 cd release/v4.0/src
 
 /////////////////////////////////////////////
